@@ -1,0 +1,14 @@
+
+[login]
+<% if @krb5_get_tickets -%>
+krb5_get_tickets = <%= @krb5_get_tickets %>
+<% end -%>
+<% if @krb_run_aklog -%>
+krb_run_aklog = <%= @krb_run_aklog %>
+<% end -%>
+<% if @aklog_path -%>
+aklog_path = <%= @aklog_path %>
+<% end -%>
+<% if @accept_passwd -%>
+accept_passwd = <%= @accept_passwd %>
+<% end -%>

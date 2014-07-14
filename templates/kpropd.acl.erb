@@ -1,0 +1,6 @@
+# This file is managed by Puppet.
+# Any local changes will be overwritten.
+
+<% @hostname.each do |host| -%>
+host/<%= host %>@<%= @realm %>
+<% end -%>
