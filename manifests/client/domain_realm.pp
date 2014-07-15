@@ -60,6 +60,7 @@ class kerberos::client::domain_realm
 				}
 			}
 		}
+	}
 	else
 	{
 		$dms = $domain_realms
