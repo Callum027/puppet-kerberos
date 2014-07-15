@@ -55,8 +55,8 @@ class kerberos::client::domain_realm
 				$k2	= lowcase($realm)	
 				$dms	=
 				{
-					$k1	=> $realm,
-					$k2	=> $realm,
+					"$k1"	=> $realm,
+					"$k2"	=> $realm,
 				}
 			},
 		}
