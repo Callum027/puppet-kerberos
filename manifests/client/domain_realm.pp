@@ -47,11 +47,15 @@ class kerberos::client::domain_realm
 
 	if ($domain_realms == undef)
 	{
-		$dms = $::osfamily ?
+		case ($::osfamily) ?
 		{
-			'Debian'	=> {
-				join([ ".", lowcase($realm) ], "")	=> $realm,
-				lowcase($realm)				=> $realm,
+			'Debian':
+			{
+				$dms =
+				{
+					join([ ".", lowcase($realm) ], "")	=> $realm,
+					lowcase($realm)				=> $realm,
+				},
 			},
 		}
 	else
