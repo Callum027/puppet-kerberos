@@ -49,8 +49,7 @@ class kerberos::client::domain_realm
 	{
 		$dms = $::osfamily ?
 		{
-			'Debian'	=>
-			{
+			'Debian'	=> {
 				join([ ".", lowcase($realm) ], "")	=> $realm,
 				lowcase($realm)				=> $realm,
 			},
