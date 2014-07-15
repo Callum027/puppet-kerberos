@@ -48,7 +48,7 @@ define kerberos::client::realm
 	$kdc			= $kdc_dns_srv ?
 	{
 		true	=> undef,
-	}
+	},
 	$kpasswd_server		= undef,
 	$master_kdc		= undef,
 	$v4_instance_convert	= undef,
