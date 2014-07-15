@@ -45,6 +45,7 @@ class kerberos::client::domain_realm
 			join([ ".", lowcase($realm) ], "")	=> $realm,
 			lowcase($realm)				=> $realm,
 		},
+		default		=> undef,
 	},
 
 	$krb5_conf			= $kerberos::params::krb5_conf
