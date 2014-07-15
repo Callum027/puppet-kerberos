@@ -35,7 +35,7 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::dbmodules
+class kerberos::client::dbmodules($krb5_conf = $kerberos::params::krb5_conf)
 {
 	concat::fragment
 	{ "$krb5_conf.dbmodules":

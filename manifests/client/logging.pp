@@ -52,6 +52,8 @@ class kerberos::client::logging
 		'Debian'	=> "FILE:/var/log/krb5.log",
 		default		=> undef,
 	}
+
+	$krb5_conf		= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params

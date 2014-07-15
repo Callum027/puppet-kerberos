@@ -56,10 +56,7 @@ define kerberos::client::appdefault
 	}
 }
 
-class kerberos::client::appdefaults
-(
-	$krb5_conf	= $kerberos::params::krb5_conf
-)
+class kerberos::client::appdefaults($krb5_conf = $kerberos::params::krb5_conf)
 {
 	concat::fragment
 	{ "$krb5_conf.appdefaults":
