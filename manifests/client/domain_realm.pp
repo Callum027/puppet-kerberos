@@ -55,7 +55,7 @@ class kerberos::client::domain_realm
 				{
 					join([ ".", lowcase($realm) ], "")	=> $realm,
 					lowcase($realm)				=> $realm,
-				},
+				}
 			},
 		}
 	else
