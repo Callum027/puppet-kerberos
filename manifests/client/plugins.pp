@@ -35,31 +35,6 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::client::plugin
-(
-	$subsection,
-	$tag		= $title,
-
-	$krb5_conf	= $kerberos::params::krb5_conf
-)
-{
-	require kerberos::params
-
-	if (!defined(Class["kerberos::client::plugins"]))
-	{
-		fail("kerberos::client::plugins is undeclared")
-	}
-
-	validate_hash($subsection)
-
-	concat::fragment
-	{ "$krb5_conf.plugins.$tag":
-		target	=> $krb5_conf,
-		order	=> 12,
-		content	=> template("kerberos/krb5.conf.plugin.erb"),
-	}
-}
-
 class kerberos::client::plugins
 (
 	$disable	= undef,

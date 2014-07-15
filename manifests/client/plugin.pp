@@ -35,37 +35,27 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::domain_realm
+define kerberos::client::plugin
 (
-	$realm		= $kerberos::params::realm,
-	$domain_realms	= undef,
+	$subsection,
+	$tag		= $title,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 
-	if ($domain_realms == undef)
+	if (!defined(Class["kerberos::client::plugins"]))
 	{
-		$dms = $::osfamily ?
-		{
-			'Debian'	=>
-			{
-				join([ ".", lowcase($realm) ], "")	=> $realm,
-				lowcase($realm)				=> $realm,
-			},
-		}
-	else
-	{
-		$dms = $domain_realms
+		fail("kerberos::client::plugins is undeclared")
 	}
 
-	validate_hash($dms)
+	validate_hash($subsection)
 
 	concat::fragment
-	{ "$krb5_conf.domain_realm":
+	{ "$krb5_conf.plugins.$tag":
 		target	=> $krb5_conf,
-		order	=> 04,
-		content	=> template("kerberos/krb5.conf.domain_realm.erb"),
+		order	=> 12,
+		content	=> template("kerberos/krb5.conf.plugin.erb"),
 	}
 }

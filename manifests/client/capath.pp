@@ -35,37 +35,23 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::domain_realm
+define kerberos::client::capath
 (
-	$realm		= $kerberos::params::realm,
-	$domain_realms	= undef,
+	$subsection,
+	$tag		= $title,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
+	require kerberos::client::capaths
 
-	if ($domain_realms == undef)
-	{
-		$dms = $::osfamily ?
-		{
-			'Debian'	=>
-			{
-				join([ ".", lowcase($realm) ], "")	=> $realm,
-				lowcase($realm)				=> $realm,
-			},
-		}
-	else
-	{
-		$dms = $domain_realms
-	}
-
-	validate_hash($dms)
+	validate_hash($subsection)
 
 	concat::fragment
-	{ "$krb5_conf.domain_realm":
+	{ "$krb5_conf.capaths.$tag":
 		target	=> $krb5_conf,
-		order	=> 04,
-		content	=> template("kerberos/krb5.conf.domain_realm.erb"),
+		order	=> 07,
+		content	=> template("kerberos/krb5.conf.capath.erb"),
 	}
 }

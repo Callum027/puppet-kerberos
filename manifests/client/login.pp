@@ -42,7 +42,7 @@ class kerberos::client::login
 	$aklog_path		= undef,
 	$accept_passwd		= undef,
 
-	$krb5_conf			= $kerberos::params::krb5_conf
+	$krb5_conf		= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params

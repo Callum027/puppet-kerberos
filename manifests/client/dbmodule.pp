@@ -35,37 +35,31 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::domain_realm
+define kerberos::client::dbmodule
 (
-	$realm		= $kerberos::params::realm,
-	$domain_realms	= undef,
+	$tag				= $title,
 
-	$krb5_conf	= $kerberos::params::krb5_conf
+	$database_name			= undef,
+	$db_library			= undef,
+	$disable_last_success		= undef,
+	$disable_lockout		= undef,
+	$ldap_kerberos_container_dn	= undef,
+	$ldap_kdc_dn			= undef,
+	$ldap_kadmind_dn		= undef,
+	$ldap_service_password_file	= undef,
+	$ldap_servers			= undef,
+	$ldap_conns_per_server		= undef,
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
-
-	if ($domain_realms == undef)
-	{
-		$dms = $::osfamily ?
-		{
-			'Debian'	=>
-			{
-				join([ ".", lowcase($realm) ], "")	=> $realm,
-				lowcase($realm)				=> $realm,
-			},
-		}
-	else
-	{
-		$dms = $domain_realms
-	}
-
-	validate_hash($dms)
+	require kerberos::client::dbmodules
 
 	concat::fragment
-	{ "$krb5_conf.domain_realm":
+	{ "$krb5_conf.dbmodules.$tag":
 		target	=> $krb5_conf,
-		order	=> 04,
-		content	=> template("kerberos/krb5.conf.domain_realm.erb"),
+		order	=> 15,
+		content	=> template("kerberos/krb5.conf.dbmodule.erb"),
 	}
 }

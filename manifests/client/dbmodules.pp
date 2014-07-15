@@ -35,35 +35,6 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::client::dbmodule
-(
-	$tag				= $title,
-
-	$database_name			= undef,
-	$db_library			= undef,
-	$disable_last_success		= undef,
-	$disable_lockout		= undef,
-	$ldap_kerberos_container_dn	= undef,
-	$ldap_kdc_dn			= undef,
-	$ldap_kadmind_dn		= undef,
-	$ldap_service_password_file	= undef,
-	$ldap_servers			= undef,
-	$ldap_conns_per_server		= undef,
-
-	$krb5_conf			= $kerberos::params::krb5_conf
-)
-{
-	require kerberos::params
-	require kerberos::client::dbmodules
-
-	concat::fragment
-	{ "$krb5_conf.dbmodules.$tag":
-		target	=> $krb5_conf,
-		order	=> 15,
-		content	=> template("kerberos/krb5.conf.dbmodule.erb"),
-	}
-}
-
 class kerberos::client::dbmodules
 {
 	concat::fragment
