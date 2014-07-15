@@ -70,7 +70,7 @@ define kerberos::client::realm
 
 class kerberos::client::realms
 (
-	$krb5_conf	`= $kerberos::params::krb5_conf
+	$krb5_conf	= $kerberos::params::krb5_conf
 )
 {
 	concat::fragment
