@@ -40,14 +40,16 @@ class kerberos::client::login
 	$krb5_get_tickets	= undef,
 	$krb_run_aklog		= undef,
 	$aklog_path		= undef,
-	$accept_passwd		= undef
+	$accept_passwd		= undef,
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.login":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.login":
+		target	=> $krb5_conf,
 		order	=> 10,
 		content	=> template("kerberos/krb5.conf.login.erb"),
 	}

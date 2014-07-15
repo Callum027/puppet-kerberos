@@ -57,8 +57,8 @@ class kerberos::client::logging
 	require kerberos::params
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.logging":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.logging":
+		target	=> $krb5_conf,
 		order	=> 05,
 		content	=> template("kerberos/krb5.conf.logging.erb"),
 	}

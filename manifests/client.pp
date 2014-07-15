@@ -36,21 +36,30 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class kerberos::client
+(
+	$client_packages	= $kerberos::params::client_packages,
+
+	$krb5_conf		= $kerberos::params::krb5_conf,
+	$krb5_conf_owner	= $kerberos::params::krb5_conf_owner,
+	$krb5_conf_group	= $kerberos::params::krb5_conf_group,
+	$krb5_conf_mode		= $kerberos::params::krb5_conf_mode
+)
 {
 	require kerberos::params
 
 	# Install the Kerberos client packages.
 	package
-	{ $kerberos::params::client_packages:
+	{ $client_packages:
 		ensure	=> installed,
 	}
 
 	# Install krb5.conf. This file is assembled from multiple
 	# concat segments.
 	concat
-	{ $kerberos::params::krb5_conf:
-		owner	=> $kerberos::params::krb5_conf_owner,
-		group	=> $kerberos::params::krb5_conf_group,
-		mode	=> $kerberos::params::krb5_conf_mode,
+	{ $krb5_conf:
+		owner	=> $krb5_conf_owner,
+		group	=> $krb5_conf_group,
+		mode	=> $krb5_conf_mode,
+		require	=> Package[$client_packages],
 	}
 }

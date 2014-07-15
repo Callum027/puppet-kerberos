@@ -68,14 +68,16 @@ class kerberos::client::libdefaults
 	$safe_checksum_type		= undef,
 	$ticket_lifetime		= undef,
 	$udp_preference_limit		= undef,
-	$verify_ap_req_nofail		= undef
+	$verify_ap_req_nofail		= undef,
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.libdefaults":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.libdefaults":
+		target	=> $krb5_conf,
 		order	=> 01,
 		content	=> template("kerberos/krb5.conf.libdefaults.erb"),
 	}

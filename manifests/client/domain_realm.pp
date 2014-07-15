@@ -45,7 +45,9 @@ class kerberos::client::domain_realm
 			join([ ".", lowcase($realm) ], "")	=> $realm,
 			lowcase($realm)				=> $realm,
 		},
-	}
+	},
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
@@ -53,8 +55,8 @@ class kerberos::client::domain_realm
 	validate_hash($domain_realms)
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.domain_realm":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.domain_realm":
+		target	=> $krb5_conf,
 		order	=> 04,
 		content	=> template("kerberos/krb5.conf.domain_realm.erb"),
 	}

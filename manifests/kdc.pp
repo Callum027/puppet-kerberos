@@ -42,7 +42,7 @@ class kerberos::kdc
 	$kdc_conf		= $kerberos::params::kdc_conf,
 	$kdc_conf_owner		= $kerberos::params::kdc_conf_owner,
 	$kdc_conf_group		= $kerberos::params::kdc_conf_group,
-	$kdc_conf_mode		= $kerberos::params::kdc_conf_mode,
+	$kdc_conf_mode		= $kerberos::params::kdc_conf_mode
 )
 {
 	require kerberos::params
@@ -60,6 +60,7 @@ class kerberos::kdc
 		owner	=> $krb5_conf_owner,
 		group	=> $krb5_conf_group,
 		mode	=> $krb5_conf_mode,
+		require	=> Package[$kdc_packages],
 	}
 
 	service

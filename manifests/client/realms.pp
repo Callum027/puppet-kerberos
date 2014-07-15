@@ -52,25 +52,30 @@ define kerberos::client::realm
 	$kpasswd_server		= undef,
 	$master_kdc		= undef,
 	$v4_instance_convert	= undef,
-	$v4_realm		= undef
+	$v4_realm		= undef,
+
+	$krb5_conf		= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 	require kerberos::client::realms
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.realms.$tag":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.realms.$tag":
+		target	=> $krb5_conf,
 		order	=> 03,
 		content	=> template("kerberos/krb5.conf.realm.erb"),
 	}
 }
 
 class kerberos::client::realms
+(
+	$krb5_conf	`= $kerberos::params::krb5_conf
+)
 {
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.realms":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.realms":
+		target	=> $krb5_conf,
 		order	=> 02,
 		content	=> "\n[realms]\n",
 	}

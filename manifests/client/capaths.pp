@@ -35,7 +35,13 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::client::capath($tag = $title, $subsection)
+define kerberos::client::capath
+(
+	$subsection,
+	$tag		= $title,
+
+	$krb5_conf	= $kerberos::params::krb5_conf
+)
 {
 	require kerberos::params
 	require kerberos::client::capaths
@@ -43,18 +49,21 @@ define kerberos::client::capath($tag = $title, $subsection)
 	validate_hash($subsection)
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.capaths.$tag":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.capaths.$tag":
+		target	=> $krb5_conf,
 		order	=> 07,
 		content	=> template("kerberos/krb5.conf.capath.erb"),
 	}
 }
 
 class kerberos::client::capaths
+(
+	$krb5_conf	= $kerberos::params::krb5_conf
+)
 {
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.capaths":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.capaths":
+		target	=> $krb5_conf,
 		order	=> 06,
 		content	=> "\n[capaths]\n",
 	}

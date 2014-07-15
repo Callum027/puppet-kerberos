@@ -43,14 +43,16 @@ class kerberos::client::dbdefaults
 	$ldap_kadmind_dn		= undef,
 	$ldap_service_password_file	= undef,
 	$ldap_servers			= undef,
-	$ldap_conns_per_server		= undef
+	$ldap_conns_per_server		= undef,
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.dbdefaults":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.dbdefaults":
+		target	=> $krb5_conf,
 		order	=> 13,
 		content	=> template("kerberos/krb5.conf.dbdefaults.erb"),
 	}

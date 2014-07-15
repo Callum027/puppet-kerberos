@@ -37,13 +37,13 @@
 #
 define kerberos::keytab
 (
+	$principals,
 	$keytab			= $title,
+	$realm			= $kerberos::params::realm,
+
 	$owner			= $kerberos::params::keytab_owner,
 	$group			= $kerberos::params::keytab_group,
 	$mode			= $kerberos::params::keytab_mode,
-
-	$realm			= $kerberos::params::realm,
-	$principals,
 
 	$use_kadmin_local	= false,
 	$password		= $use_kadmin_local ?
@@ -53,6 +53,9 @@ define kerberos::keytab
 
 	$kdc_prefix		= $kerberos::params::kdc_prefix,
 	$tmpfile		= "$kdc_prefix/.kerberos::keytab::$keytab.tmp",
+
+	$kdc_service		= $kerberos::params::kdc_service,
+	$kadmin_server_service	= $kerberos::params::kadmin_server_service,
 
 	$cat			= $kerberos::params::cat,
 	$grep			= $kerberos::params::grep,
@@ -101,7 +104,7 @@ define kerberos::keytab
 	{ "kerberos::keytab::kadmin_addprinc::${principals}":
 		command	=> "$kadmin_command -r $realm -q \"addprinc -randkey ${principals}\"",
 		unless	=> "$kadmin_command -r $realm -q \"listprincs ${principals}\" | $grep \"${principals}\"",
-		require => [ Service[$kerberos::params::kdc_service] , Service[$kerberos::params::kadmin_server] ],
+		require => [ Service[$kdc_service] , Service[$kadmin_server_service] ],
 	}
 
 	# Save the given principals to the keytab file.

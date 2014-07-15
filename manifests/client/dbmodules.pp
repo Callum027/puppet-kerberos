@@ -48,15 +48,17 @@ define kerberos::client::dbmodule
 	$ldap_kadmind_dn		= undef,
 	$ldap_service_password_file	= undef,
 	$ldap_servers			= undef,
-	$ldap_conns_per_server		= undef
+	$ldap_conns_per_server		= undef,
+
+	$krb5_conf			= $kerberos::params::krb5_conf
 )
 {
 	require kerberos::params
 	require kerberos::client::dbmodules
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.dbmodules.$tag":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.dbmodules.$tag":
+		target	=> $krb5_conf,
 		order	=> 15,
 		content	=> template("kerberos/krb5.conf.dbmodule.erb"),
 	}
@@ -65,8 +67,8 @@ define kerberos::client::dbmodule
 class kerberos::client::dbmodules
 {
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.dbmodules":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.dbmodules":
+		target	=> $krb5_conf,
 		order	=> 14,
 		content	=> "\n[dbmodules]\n",
 	}

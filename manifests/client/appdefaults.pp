@@ -35,7 +35,13 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::client::appdefault($tag = $title, $subsection)
+define kerberos::client::appdefault
+(
+	$subsection,
+	$tag 		= $title,
+
+	$krb5_conf	= $kerberos::params::krb5_conf
+)
 {
 	require kerberos::params
 	require kerberos::client::appdefaults
@@ -43,18 +49,21 @@ define kerberos::client::appdefault($tag = $title, $subsection)
 	validate_hash($subsection)
 
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.appdefaults.$tag":
-		target	=> $kerberos::params::krb5_conf,
+	{ ".appdefaults.$tag":
+		target	=> $krb5_conf,
 		order	=> 09,
 		content	=> template("kerberos/krb5.conf.appdefault.erb"),
 	}
 }
 
 class kerberos::client::appdefaults
+(
+	$krb5_conf	= $kerberos::params::krb5_conf
+)
 {
 	concat::fragment
-	{ "$kerberos::params::krb5_conf.appdefaults":
-		target	=> $kerberos::params::krb5_conf,
+	{ "$krb5_conf.appdefaults":
+		target	=> $krb5_conf,
 		order	=> 08,
 		content	=> "\n[appdefaults]\n",
 	}
