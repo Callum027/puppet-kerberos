@@ -35,15 +35,35 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::realms
+define kerberos::client::realm
 (
-	$krb5_conf	= $kerberos::params::krb5_conf
+	$tag			= $title,
+
+	$admin_server		= undef,
+	$auth_to_local		= undef,
+	$auth_to_local_names	= undef,
+	$default_domain		= undef,
+	$http_anchors		= undef,
+	$kdc_dns_srv		= false,
+	$kdc			= $kdc_dns_srv ?
+	{
+		true	=> undef,
+	}
+	$kpasswd_server		= undef,
+	$master_kdc		= undef,
+	$v4_instance_convert	= undef,
+	$v4_realm		= undef,
+
+	$krb5_conf		= $kerberos::params::krb5_conf
 )
 {
+	require kerberos::params
+	require kerberos::client::realms
+
 	concat::fragment
-	{ "$krb5_conf.realms":
+	{ "$krb5_conf.realms.$tag":
 		target	=> $krb5_conf,
-		order	=> 02,
-		content	=> "\n[realms]\n",
+		order	=> 03,
+		content	=> template("kerberos/krb5.conf.realm.erb"),
 	}
-}
+} 
