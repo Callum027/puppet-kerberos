@@ -51,8 +51,9 @@ class kerberos::client::domain_realm
 		{
 			'Debian':
 			{
-				$k1	= join([ ".", downcase($realm) ], "")
-				$k2	= downcase($realm)	
+				$k2	= downcase($realm)
+				$k1	= ".$k2"	
+
 				$dms	=
 				{
 					"$k1"	=> $realm,
