@@ -47,7 +47,7 @@ class kerberos::client::domain_realm
 
 	if ($domain_realms == undef)
 	{
-		case ($::osfamily) ?
+		case ($::osfamily)
 		{
 			'Debian':
 			{
