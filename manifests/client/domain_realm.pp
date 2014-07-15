@@ -58,7 +58,7 @@ class kerberos::client::domain_realm
 					"$k1"	=> $realm,
 					"$k2"	=> $realm,
 				}
-			},
+			}
 		}
 	else
 	{
