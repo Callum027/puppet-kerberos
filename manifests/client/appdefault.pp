@@ -35,19 +35,29 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::client::plugins
+define kerberos::client::appdefault
 (
-	$disable	= undef,
-	$enable_only	= undef,
-	$module		= undef,
+	$subsection,
+	$tag 		= $title,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
 ) inherits kerberos::params
 {
+	if (!defined(Class["kerberos::client::appdefaults"])
+	{
+		class
+		{ "kerberos::client::appdefaults":
+			krb5_conf	=> $krb5_conf,
+		}
+	}
+
+
+	validate_hash($subsection)
+
 	concat::fragment
-	{ "$krb5_conf.plugins":
+	{ "$krb5_conf.appdefaults.$tag":
 		target	=> $krb5_conf,
-		order	=> 11,
-		content	=> template("kerberos/krb5.conf.plugins.erb"),
+		order	=> 09,
+		content	=> template("kerberos/krb5.conf.appdefault.erb"),
 	}
 }

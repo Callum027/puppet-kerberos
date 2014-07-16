@@ -46,10 +46,8 @@ class kerberos::client::dbdefaults
 	$ldap_conns_per_server		= undef,
 
 	$krb5_conf			= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	concat::fragment
 	{ "$krb5_conf.dbdefaults":
 		target	=> $krb5_conf,

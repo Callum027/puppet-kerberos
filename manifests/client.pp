@@ -43,10 +43,8 @@ class kerberos::client
 	$krb5_conf_owner	= $kerberos::params::krb5_conf_owner,
 	$krb5_conf_group	= $kerberos::params::krb5_conf_group,
 	$krb5_conf_mode		= $kerberos::params::krb5_conf_mode
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	# Install the Kerberos client packages.
 	package
 	{ $client_packages:

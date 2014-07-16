@@ -41,14 +41,16 @@ define kerberos::client::plugin
 	$tag		= $title,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
-	if (!defined(Class["kerberos::client::plugins"]))
+	if (!defined(Class["kerberos::client::plugins"])
 	{
-		fail("kerberos::client::plugins is undeclared")
+		class
+		{ "kerberos::client::plugins":
+			krb5_conf	=> $krb5_conf,
+		}
 	}
+
 
 	validate_hash($subsection)
 

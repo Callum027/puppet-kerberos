@@ -41,10 +41,15 @@ define kerberos::client::capath
 	$tag		= $title,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-	require kerberos::client::capaths
+	if (!defined(Class["kerberos::client::capaths"])
+	{
+		class
+		{ "kerberos::client::capaths":
+			krb5_conf	=> $krb5_conf,
+		}
+	}
 
 	validate_hash($subsection)
 

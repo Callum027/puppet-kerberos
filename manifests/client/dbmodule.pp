@@ -51,10 +51,15 @@ define kerberos::client::dbmodule
 	$ldap_conns_per_server		= undef,
 
 	$krb5_conf			= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-	require kerberos::client::dbmodules
+	if (!defined(Class["kerberos::client::dbmodules"])
+	{
+		class
+		{ "kerberos::client::dbmodules":
+			krb5_conf	=> $krb5_conf,
+		}
+	}
 
 	concat::fragment
 	{ "$krb5_conf.dbmodules.$tag":

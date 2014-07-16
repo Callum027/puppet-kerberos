@@ -55,10 +55,15 @@ define kerberos::client::realm
 	$v4_realm		= undef,
 
 	$krb5_conf		= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-	require kerberos::client::realms
+	if (!defined(Class["kerberos::client::realms"])
+	{
+		class
+		{ "kerberos::client::realms":
+			krb5_conf	=> $krb5_conf,
+		}
+	}
 
 	concat::fragment
 	{ "$krb5_conf.realms.$tag":

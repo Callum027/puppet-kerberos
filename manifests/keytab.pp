@@ -63,7 +63,7 @@ define kerberos::keytab
 	$kadmin_local		= $kerberos::params::kadmin_local,
 	$klist			= $kerberos::params::klist,
 	$rm			= $kerberos::params::rm
-)
+) inherits kerberos::params
 {
 	# Determine which kadmin command to use.
 	# If remote kadmin is used, the given password is put into a locked down

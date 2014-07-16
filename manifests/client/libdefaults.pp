@@ -44,7 +44,7 @@ class kerberos::client::libdefaults
 	$clockskew			= undef,
 	$default_ccache_name		= undef,
 	$default_client_keytab_name	= undef,
-	$default_realm			= upcase($domain),
+	$default_realm			= $kerberos::params::realm,
 	$default_tgs_enctypes		= undef,
 	$default_tkt_enctypes		= undef,
 	$dns_canonicalize_hostname	= undef,
@@ -71,10 +71,8 @@ class kerberos::client::libdefaults
 	$verify_ap_req_nofail		= undef,
 
 	$krb5_conf			= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	concat::fragment
 	{ "$krb5_conf.libdefaults":
 		target	=> $krb5_conf,

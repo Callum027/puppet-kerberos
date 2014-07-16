@@ -43,10 +43,8 @@ class kerberos::client::login
 	$accept_passwd		= undef,
 
 	$krb5_conf		= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	concat::fragment
 	{ "$krb5_conf.login":
 		target	=> $krb5_conf,

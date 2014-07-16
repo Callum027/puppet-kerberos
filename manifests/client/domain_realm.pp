@@ -41,10 +41,8 @@ class kerberos::client::domain_realm
 	$domain_realms	= undef,
 
 	$krb5_conf	= $kerberos::params::krb5_conf
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	if ($domain_realms == undef)
 	{
 		case ($::osfamily)

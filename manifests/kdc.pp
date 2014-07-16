@@ -43,10 +43,8 @@ class kerberos::kdc
 	$kdc_conf_owner		= $kerberos::params::kdc_conf_owner,
 	$kdc_conf_group		= $kerberos::params::kdc_conf_group,
 	$kdc_conf_mode		= $kerberos::params::kdc_conf_mode
-)
+) inherits kerberos::params
 {
-	require kerberos::params
-
 	# Install the Kerberos KDC packages.
 	package
 	{ $kdc_packages:
