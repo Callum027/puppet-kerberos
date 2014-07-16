@@ -54,7 +54,7 @@ define kerberos::client::plugin
 		$krb5_conf_real = $krb5_conf
 	}
 
-	if (!defined(Class["kerberos::client::plugins"])
+	if (!defined(Class["kerberos::client::plugins"]))
 	{
 		class
 		{ "kerberos::client::plugins":

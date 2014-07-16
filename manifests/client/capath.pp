@@ -54,7 +54,7 @@ define kerberos::client::capath
 		$krb5_conf_real = $krb5_conf
 	}
 
-	if (!defined(Class["kerberos::client::capaths"])
+	if (!defined(Class["kerberos::client::capaths"]))
 	{
 		class
 		{ "kerberos::client::capaths":

@@ -64,7 +64,7 @@ define kerberos::client::dbmodule
 		$krb5_conf_real = $krb5_conf
 	}
 
-	if (!defined(Class["kerberos::client::dbmodules"])
+	if (!defined(Class["kerberos::client::dbmodules"]))
 	{
 		class
 		{ "kerberos::client::dbmodules":

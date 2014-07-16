@@ -54,7 +54,7 @@ define kerberos::client::appdefault
 		$krb5_conf_real = $krb5_conf
 	}
 
-	if (!defined(Class["kerberos::client::appdefaults"])
+	if (!defined(Class["kerberos::client::appdefaults"]))
 	{
 		class
 		{ "kerberos::client::appdefaults":

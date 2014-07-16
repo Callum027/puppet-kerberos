@@ -68,7 +68,7 @@ define kerberos::client::realm
 		$krb5_conf_real = $krb5_conf
 	}
 
-	if (!defined(Class["kerberos::client::realms"])
+	if (!defined(Class["kerberos::client::realms"]))
 	{
 		class
 		{ "kerberos::client::realms":
