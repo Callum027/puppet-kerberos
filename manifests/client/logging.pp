@@ -37,23 +37,11 @@
 #
 class kerberos::client::logging
 (
-	$kdc			= $::osfamily ?
-	{
-		'Debian'	=> "FILE:/var/log/krb5-kdc.log",
-		default		=> undef,
-	},
-	$admin_server		= $::osfamily ?
-	{
-		'Debian'	=> "FILE:/var/log/krb5-admin-server.log",
-		default		=> undef,
-	},
-	$default		= $::osfamily ?
-	{
-		'Debian'	=> "FILE:/var/log/krb5.log",
-		default		=> undef,
-	},
+	$kdc		= undef,
+	$admin_server	= undef,
+	$default	= undef,
 
-	$krb5_conf		= $kerberos::params::krb5_conf
+	$krb5_conf	= $kerberos::params::krb5_conf
 ) inherits kerberos::params
 {
 	concat::fragment
