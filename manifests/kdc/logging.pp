@@ -37,16 +37,16 @@
 #
 class kerberos::kdc::logging
 (
-	$kdc			= undef,
-	$admin_server		= undef,
-	$default		= undef
-)
-{
-	require kerberos::params
+	$kdc		= undef,
+	$admin_server	= undef,
+	$default	= undef,
 
+	$kdc_conf	= $kerberos::params::kdc_conf
+) inherits kerberos::params
+{
 	concat::fragment
-	{ "$kerberos::params::kdc_conf.logging":
-		target	=> $kerberos::params::kdc_conf,
+	{ "$kdc_conf.logging":
+		target	=> $kdc_conf,
 		order	=> 07,
 		content	=> template("kerberos/kdc.conf.logging.erb"),
 	}

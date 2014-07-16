@@ -42,10 +42,12 @@ class kerberos::kdc::master
 	$realm		= $kerberos::params::realm,
 	$kadm5_acl	= $kerberos::params::kadm5_acl,
 	$keytab 	= $kerberos::params::keytab,
-	$kprop_dump	= $kerberos::params::kprop_dump
-)
+	$kprop_dump	= $kerberos::params::kprop_dump,
+
+	$kdb5_util	= $kerberos::params::kdb5_util,
+	$kprop		= $kerberos::params::kprop
+) inherits kerberos::params
 {
-	require kerberos::params
 	require kerberos::client
 	require kerberos::kdc
 
@@ -66,7 +68,12 @@ class kerberos::kdc::master
 		realm	=> $realm,
 	}
 
-	require kerberos::client::logging
+	class
+	{ 'kerberos::client::logging':
+		kdc		=> "FILE:/var/log/krb5-kdc.log",
+		admin_server	=> "FILE:/var/log/krb5-admin-server.log",
+		default		=> "FILE:/var/log/krb5.log",
+	}
 
 	# Set up the KDC configuration.
 	class

@@ -35,39 +35,11 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::dbmodule
-(
-	$tag				= $title,
-
-	$database_name			= undef,
-	$db_library			= undef,
-	$disable_last_success		= undef,
-	$disable_lockout		= undef,
-	$ldap_conns_per_server		= undef,
-	$ldap_kadmind_dn		= undef,
-	$ldap_kdc_dn			= undef,
-	$ldap_kerberos_container_dn	= undef,
-	$ldap_servers			= undef,
-	$ldap_service_password_file	= undef,
-	$db_module_dir			= undef
-)
-{
-	require kerberos::params
-	require kerberos::kdc::dbmodules
-
-	concat::fragment
-	{ "$kerberos::params::kdc_conf.dbmodules.$tag":
-		target	=> $kerberos::params::kdc_conf,
-		order	=> 06,
-		content	=> template("kerberos/kdc.conf.dbmodule.erb"),
-	}
-}
-
-class kerberos::kdc::dbmodules
+class kerberos::kdc::dbmodules($kdc_conf = $kerberos::params::kdc_conf) inherits kerberos::params
 {
 	concat::fragment
-	{ "$kerberos::params::kdc_conf.dbmodules":
-		target	=> $kerberos::params::kdc_conf,
+	{ "$kdc_conf.dbmodules":
+		target	=> $kdc_conf,
 		order	=> 05,
 		content	=> "\n[dbmodules]\n",
 	}

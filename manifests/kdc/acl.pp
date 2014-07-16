@@ -37,12 +37,12 @@
 #
 define kerberos::kdc::acl
 (
-	$file		= $title,
-	$owner		= $kerberos::params::kadm5_acl_owner,
-	$group		= $kerberos::params::kadm5_acl_group,
-	$mode		= $kerberos::params::kadm5_acl_mode,
+	$file			= $title,
+	$owner			= undef,
+	$group			= undef,
+	$mode			= undef,
 
-	$realm			= upcase($domain),
+	$realm			= undef,
 	$acl			=
 	[
 		{
@@ -59,13 +59,58 @@ define kerberos::kdc::acl
 	require kerberos::kdc
 	require kerberos::kadmin_server
 
+	if ($owner == undef)
+	{
+		$owner_real = $kerberos::params::kadm5_acl_owner
+	}
+	else
+	{
+		$owner_real = $owner
+	}
+
+	if ($group == undef)
+	{
+		$group_real = $kerberos::params::kadm5_acl_group
+	}
+	else
+	{
+		$group_real = $group
+	}
+
+	if ($mode == undef)
+	{
+		$mode_real = $kerberos::params::kadm5_acl_mode
+	}
+	else
+	{
+		$mode_real = $mode
+	}
+
+	if ($realm == undef)
+	{
+		$realm_real = $kerberos::params::realm
+	}
+	else
+	{
+		$realm_real = $realm
+	}
+
+	if ($kadmin_server_service == undef)
+	{
+		$kadmin_server_service_real = $kerberos::params::kadmin_server_service
+	}
+	else
+	{
+		$kadmin_server_service_real = $kadmin_server_service
+	}
+
 	# Install the ACL to its given location.
 	file
 	{ $file:
-		owner		=> $owner,
-		group		=> $group,
-		mode		=> $mode,
+		owner		=> $owner_real,
+		group		=> $group_real,
+		mode		=> $mode_real,
 		content		=> template("kerberos/kadm5.acl.erb"),
-		subscribe	=> Service[$kadmin_server_service],
+		subscribe	=> Service[$kadmin_server_service_real],
 	}
 }

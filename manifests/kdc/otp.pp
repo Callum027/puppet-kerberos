@@ -35,33 +35,11 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::otp_token
-(
-	$tag		= $title,
-
-	$server		= undef,
-	$secret		= undef,
-	$timeout	= undef,
-	$retries	= undef,
-	$strip_realm	= undef
-)
-{
-	require kerberos::params
-	require kerberos::client::otp
-
-	concat::fragment
-	{ "$kerberos::params::kdc_conf.otp.$tag":
-		target	=> $kerberos::params::kdc_conf,
-		order	=> 06,
-		content	=> template("kerberos/kdc.conf.otp_token.erb"),
-	}
-}
-
-class kerberos::kdc::otp
+class kerberos::kdc::otp($kdc_conf = $kerberos::params::kdc_conf) inherits kerberos::params
 {
 	concat::fragment
 	{ "$kerberos::params::kdc_conf.otp":
-		target	=> $kerberos::params::kdc_conf,
+		target	=> $kdc_conf,
 		order	=> 08,
 		content	=> "\n[otp]\n",
 	}

@@ -39,7 +39,7 @@ class kerberos::kdc::kadmin_server
 (
 	$kadmin_server_service	= $kerberos::params::kadmin_server_service,
 	$kadmin_server_packages	= $kerberos::params::kadmin_server_packages
-)
+) inherits kerberos::params
 {
 	require kerberos::kdc
 

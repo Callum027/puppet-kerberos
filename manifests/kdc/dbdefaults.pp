@@ -42,14 +42,14 @@ class kerberos::kdc::dbdefaults
 	$ldap_kadmind_dn		= undef,
 	$ldap_service_password_file	= undef,
 	$ldap_servers			= undef,
-	$ldap_conns_per_server		= undef
-)
-{
-	require kerberos::params
+	$ldap_conns_per_server		= undef,
 
+	$kdc_conf			= $kerberos::params::kdc_conf
+) inherits kerberos::params
+{
 	concat::fragment
-	{ "$kerberos::params::kdc_conf.dbdefaults":
-		target	=> $kerberos::params::kdc_conf,
+	{ "$kdc_conf.dbdefaults":
+		target	=> $kdc_conf,
 		order	=> 04,
 		content	=> template("kerberos/kdc.conf.dbdefaults.erb"),
 	}

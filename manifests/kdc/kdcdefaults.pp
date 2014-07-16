@@ -42,11 +42,11 @@ class kerberos::kdc::kdcdefaults
 	$kdc_tcp_ports			= undef,
 	$no_host_referral		= undef,
 	$restrict_anonymous_to_tgt	= undef,
-	$kdc_max_dgram_reply_size	= undef
-)
-{
-	require kerberos::params
+	$kdc_max_dgram_reply_size	= undef,
 
+	$kdc_conf			= $kerberos::params::kdc_conf
+) inherits kerberos::params
+{
 	concat::fragment
 	{ "$kerberos::params::kdc_conf.kdcdefaults":
 		target	=> $kerberos::params::kdc_conf,

@@ -35,12 +35,35 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::kdc::realms($kdc_conf = $kerberos::params::kdc_conf) inherits kerberos::params
+define kerberos::kdc::otp_token
+(
+	$tag		= $title,
+
+	$server		= undef,
+	$secret		= undef,
+	$timeout	= undef,
+	$retries	= undef,
+	$strip_realm	= undef,
+
+	$kdc_conf	= undef
+)
 {
+	require kerberos::params
+	require kerberos::client::otp
+
+	if ($kdc_conf == undef)
+	{
+		$kdc_conf_real = $kerberos::params::kdc_conf
+	}
+	else
+	{
+		$kdc_conf_real = $kdc_conf
+	}
+
 	concat::fragment
-	{ "$kdc_conf.realms":
-		target	=> $kdc_conf,
-		order	=> 02,
-		content	=> "\n[realms]\n",
+	{ "$kdc_conf_real.otp.$tag":
+		target	=> $kdc_conf_real,
+		order	=> 06,
+		content	=> template("kerberos/kdc.conf.otp_token.erb"),
 	}
 }

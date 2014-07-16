@@ -35,21 +35,18 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::hostname($hostname = $title, $realm = upcase($domain))
-{
-}
+define kerberos::kdc::hostname($hostname = $title, $realm) {}
 
 class kerberos::kdc::kpropd_acl
 (
-	$realm			= upcase($domain),
+	$realm			= $kerberos::params::realm,
 
 	$kpropd_acl		= $kerberos::params::kpropd_acl,
 	$kpropd_acl_owner	= $kerberos::params::kpropd_acl_owner,
 	$kpropd_acl_group	= $kerberos::params::kpropd_acl_group,
-	$kpropd_acl_mode	= $kerberos::params::kpropd_acl_mode,
-)
+	$kpropd_acl_mode	= $kerberos::params::kpropd_acl_mode
+) inherits kerberos::params
 {
-	require kerberos::params
 	require kerberos::kdc
 
 	# Export this KDC's hostname. It will be used to build
