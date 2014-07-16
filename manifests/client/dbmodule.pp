@@ -50,20 +50,31 @@ define kerberos::client::dbmodule
 	$ldap_servers			= undef,
 	$ldap_conns_per_server		= undef,
 
-	$krb5_conf			= $kerberos::params::krb5_conf
-) inherits kerberos::params
+	$krb5_conf			= undef
+)
 {
+	require kerberos::params
+
+	if ($krb5_conf == undef)
+	{
+		$krb5_conf_real = $kerberos::params::krb5_conf
+	}
+	else
+	{
+		$krb5_conf_real = $krb5_conf
+	}
+
 	if (!defined(Class["kerberos::client::dbmodules"])
 	{
 		class
 		{ "kerberos::client::dbmodules":
-			krb5_conf	=> $krb5_conf,
+			krb5_conf	=> $krb5_conf_real,
 		}
 	}
 
 	concat::fragment
-	{ "$krb5_conf.dbmodules.$tag":
-		target	=> $krb5_conf,
+	{ "$krb5_conf_real.dbmodules.$tag":
+		target	=> $krb5_conf_real,
 		order	=> 15,
 		content	=> template("kerberos/krb5.conf.dbmodule.erb"),
 	}

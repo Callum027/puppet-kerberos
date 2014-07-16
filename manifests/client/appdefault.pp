@@ -40,23 +40,33 @@ define kerberos::client::appdefault
 	$subsection,
 	$tag 		= $title,
 
-	$krb5_conf	= $kerberos::params::krb5_conf
-) inherits kerberos::params
+	$krb5_conf	= undef
+)
 {
+	require kerberos::params
+
+	if ($krb5_conf == undef)
+	{
+		$krb5_conf_real = $kerberos::params::krb5_conf
+	}
+	else
+	{
+		$krb5_conf_real = $krb5_conf
+	}
+
 	if (!defined(Class["kerberos::client::appdefaults"])
 	{
 		class
 		{ "kerberos::client::appdefaults":
-			krb5_conf	=> $krb5_conf,
+			krb5_conf	=> $krb5_conf_real,
 		}
 	}
-
 
 	validate_hash($subsection)
 
 	concat::fragment
-	{ "$krb5_conf.appdefaults.$tag":
-		target	=> $krb5_conf,
+	{ "$krb5_conf_real.appdefaults.$tag":
+		target	=> $krb5_conf_real,
 		order	=> 09,
 		content	=> template("kerberos/krb5.conf.appdefault.erb"),
 	}

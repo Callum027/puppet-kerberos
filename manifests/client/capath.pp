@@ -40,22 +40,33 @@ define kerberos::client::capath
 	$subsection,
 	$tag		= $title,
 
-	$krb5_conf	= $kerberos::params::krb5_conf
+	$krb5_conf	= undef
 ) inherits kerberos::params
 {
+	require kerberos::params
+
+	if ($krb5_conf == undef)
+	{
+		$krb5_conf_real = $kerberos::params::krb5_conf
+	}
+	else
+	{
+		$krb5_conf_real = $krb5_conf
+	}
+
 	if (!defined(Class["kerberos::client::capaths"])
 	{
 		class
 		{ "kerberos::client::capaths":
-			krb5_conf	=> $krb5_conf,
+			krb5_conf	=> $krb5_conf_real,
 		}
 	}
 
 	validate_hash($subsection)
 
 	concat::fragment
-	{ "$krb5_conf.capaths.$tag":
-		target	=> $krb5_conf,
+	{ "$krb5_conf_real.capaths.$tag":
+		target	=> $krb5_conf_real,
 		order	=> 07,
 		content	=> template("kerberos/krb5.conf.capath.erb"),
 	}
