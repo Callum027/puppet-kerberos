@@ -49,7 +49,7 @@ define kerberos::keytab
 	$password		= $use_kadmin_local ?
 	{
 		true	=> undef,
-	}
+	},
 
 	$kdc_prefix		= $kerberos::params::kdc_prefix,
 	$tmpfile		= "$kdc_prefix/.kerberos::keytab::$keytab.tmp",
