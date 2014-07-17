@@ -116,7 +116,7 @@ define kerberos::kdc::realm
 	{
 		exec
 		{ "kerberos::kdc::realm::kdb5_util::create::$tag": 
-			command		=> "$kdb5_util_real -r $tag -P $password create -s":
+			command		=> "$kdb5_util_real -r $tag -P $password create -s",
 			creates		=> $database_name,
 			require		=> File[$kdc_conf_real],
 			subscribe	=> Service[$kdc_service_real],
@@ -128,7 +128,7 @@ define kerberos::kdc::realm
 	{
 		exec
 		{ "kerberos::kdc::realm::kdb5_util::stash::$tag": 
-			command		=> "$kdb5_util_real stash":
+			command		=> "$kdb5_util_real stash",
 			creates		=> $database_name,
 			require		=> File[$kdc_conf_real],
 			subscribe	=> Service[$kdc_service_real],
