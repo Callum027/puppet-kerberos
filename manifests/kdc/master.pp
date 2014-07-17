@@ -111,7 +111,7 @@ class kerberos::kdc::master
 	# Set up cron jobs to update the slave KDCs.
 	cron
 	{ "kerberos::kdc::master::cron::kprop::${hostnames}":
-		command	=> "$kdb5_util dump $kprop_dump && $kprop -r $realm -f $kprop_dump ${hostnames}"
+		command	=> "$kdb5_util dump $kprop_dump && $kprop -r $realm -f $kprop_dump ${hostnames}",
 		minute	=> "*/5",
 		require	=> [ Service[$kdc_service], File[$kpropd_acl] ],
 	}
