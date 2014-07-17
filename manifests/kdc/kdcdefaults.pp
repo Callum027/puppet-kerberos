@@ -51,6 +51,6 @@ class kerberos::kdc::kdcdefaults
 	{ "$kerberos::params::kdc_conf.kdcdefaults":
 		target	=> $kerberos::params::kdc_conf,
 		order	=> 01,
-		content	=> template("kerberos/krb5.conf.kdcdefaults.erb"),
+		content	=> template("kerberos/kdc.conf.kdcdefaults.erb"),
 	}
 }
