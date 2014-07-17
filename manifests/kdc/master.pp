@@ -37,7 +37,7 @@
 #
 class kerberos::kdc::master
 (
-	$password,
+	$password	= undef,
 
 	$realm		= $kerberos::params::realm,
 	$kadm5_acl	= $kerberos::params::kadm5_acl,
