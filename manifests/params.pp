@@ -105,11 +105,12 @@ class kerberos::params
 			$kdc_database_name			= "$kdc_database_dir/principal"
 			$kprop_dump				= "$kdc_database_dir/dump"
 
-			# kpropd.acl location, permissions.
+			# kpropd.acl location, permissions, settings.
 			$kpropd_acl				= "$kdc_prefix/kpropd.acl"
 			$kpropd_acl_owner			= "root"
 			$kpropd_acl_group			= "root"
 			$kpropd_acl_mode			= "400"
+			$kpropd_acl_host_prefix			= "host"
 
 			# KDC master key stash location, permissions.
 			$kdc_stash				= "$kdc_prefix/stash"

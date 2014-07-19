@@ -35,7 +35,21 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::hostname($hostname = $title, $realm) {}
+define kerberos::kdc::kprod_acl::host
+(
+	$realm,
+	$hostname = $title,
+
+	$kpropd_acl,
+	$kpropd_acl_host_prefix
+)
+{
+	concat::fragment
+	{ "$kpropd_acl.$hostname":
+		target	=> $kpropd_acl,
+		content	=> "$kpropd_acl_host_prefix/$hostname@$realm\n",
+	}
+}
 
 class kerberos::kdc::kpropd_acl
 (
@@ -44,26 +58,29 @@ class kerberos::kdc::kpropd_acl
 	$kpropd_acl		= $kerberos::params::kpropd_acl,
 	$kpropd_acl_owner	= $kerberos::params::kpropd_acl_owner,
 	$kpropd_acl_group	= $kerberos::params::kpropd_acl_group,
-	$kpropd_acl_mode	= $kerberos::params::kpropd_acl_mode
+	$kpropd_acl_mode	= $kerberos::params::kpropd_acl_mode,
+	$kpropd_acl_host_prefix	= $kerberos::params::kpropd_acl_host_prefix
 ) inherits kerberos::params
 {
 	require kerberos::kdc
 
 	# Export this KDC's hostname. It will be used to build
 	# kpropd.acl, which is the Kerberos cluster's access control list.
-	@@kerberos::kdc::hostname
+	@@kerberos::kdc::kpropd_acl::host
 	{ $fqdn:
-		realm	=> $realm,
+		realm			=> $realm,
+		kpropd_acl		=> $kpropd_acl,
+		kpropd_acl_host_prefix	=> $kpropd_acl_host_prefix,
 	}
 
 	# Collect all of the slave KDCs, and save a kpropd access control list.
-	Kerberos::Kdc::Hostname <<| realm == $realm |>>
+	Kerberos::Kdc::Kpropd_acl::Host <<| kpropd_acl == $kpropd_acl |>>
 
-	file
+	# Set up the concat resource for kpropd.acl.
+	concat
 	{ $kpropd_acl:
 		owner	=> $kpropd_acl_owner,
 		group	=> $kpropd_acl_group,
 		mode	=> $kpropd_acl_mode,
-		content	=> template("kerberos/kpropd.acl.erb"),
 	}
 }
