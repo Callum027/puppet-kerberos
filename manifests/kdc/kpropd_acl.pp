@@ -45,7 +45,7 @@ define kerberos::kdc::kpropd_acl::host
 )
 {
 	concat::fragment
-	{ "$kpropd_acl.$hostname":
+	{ "$kpropd_acl.$realm.$hostname":
 		target	=> $kpropd_acl,
 		order	=> "01-$realm-$hostname",
 		content	=> "$kpropd_acl_host_prefix/$hostname@$realm\n",
@@ -76,7 +76,8 @@ class kerberos::kdc::kpropd_acl
 		realm			=> $realm,
 		kpropd_acl		=> $kpropd_acl,
 		kpropd_acl_host_prefix	=> $kpropd_acl_host_prefix,
-	} ->
+	}
+
 	# Collect all of the slave KDCs, and save a kpropd access control list.
 	Kerberos::Kdc::Kpropd_acl::Host <<| kpropd_acl == $kpropd_acl |>>
 
