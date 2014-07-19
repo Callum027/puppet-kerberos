@@ -55,6 +55,7 @@ class kerberos::kdc::kpropd_acl
 (
 	$realm			= $kerberos::params::realm,
 
+	$kdc_packages		= $kerberos::params::kdc_packages,
 	$kpropd_acl		= $kerberos::params::kpropd_acl,
 	$kpropd_acl_owner	= $kerberos::params::kpropd_acl_owner,
 	$kpropd_acl_group	= $kerberos::params::kpropd_acl_group,
@@ -82,5 +83,6 @@ class kerberos::kdc::kpropd_acl
 		owner	=> $kpropd_acl_owner,
 		group	=> $kpropd_acl_group,
 		mode	=> $kpropd_acl_mode,
+		require	=> Package[$kdc_packages],
 	}
 }
