@@ -48,8 +48,8 @@ class kerberos::kdc::master
 	$kprop		= $kerberos::params::kprop
 ) inherits kerberos::params
 {
-	require kerberos::client
-	require kerberos::kdc
+	include kerberos::client
+	include kerberos::kdc
 
 	# Configure the Kerberos client, to connect with the local database.
 	class
