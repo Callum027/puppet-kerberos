@@ -57,9 +57,9 @@ define kerberos::kadmin_server::acl
 {
 	require kerberos::params
 
-	if (!defined(Class["kerberos::kadmin"]))
+	if (!defined(Class["kerberos::kadmin_server"]))
 	{
-		fail("kerberos::kadmin is not defined")
+		fail("kerberos::kadmin_server is not defined")
 	}
 
 	if ($owner == undef)

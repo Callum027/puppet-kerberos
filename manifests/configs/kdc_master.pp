@@ -50,6 +50,7 @@ class kerberos::configs::kdc_master
 {
 	include kerberos::client
 	include kerberos::kdc
+	include kerberos::kadmin_server
 
 	# Configure the Kerberos client, to connect with the local database.
 	class
@@ -89,7 +90,7 @@ class kerberos::configs::kdc_master
 
 	# Set up kadm5.acl, which stores the access control list
 	# for the kadmin daemon.
-	kerberos::kdc::acl
+	kerberos::kadmin_server::acl
 	{ $kadm5_acl:
 		realm	=> $realm,
 	}
