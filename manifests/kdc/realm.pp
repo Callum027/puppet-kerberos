@@ -75,7 +75,6 @@ define kerberos::kdc::realm
 )
 {
 	require kerberos::params
-	require kerberos::kdc::realms
 
 	if ($kdc_conf == undef)
 	{
@@ -102,6 +101,14 @@ define kerberos::kdc::realm
 	else
 	{
 		$kdb5_util_real = $kdb5_util
+	}
+
+	if (!defined(Class["kerberos::kdc::realms"]))
+	{
+		class
+		{ "kerberos::kdc::realms":
+			kdc_conf	=> $kdc_conf_real,
+		}
 	}
 
 	concat::fragment

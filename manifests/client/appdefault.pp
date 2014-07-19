@@ -45,6 +45,13 @@ define kerberos::client::appdefault
 {
 	require kerberos::params
 
+	# Fail if kerberos::client is not defined.
+	if (!defined(Class["kerberos::client"]))
+	{
+		fail("kerberos::client is not defined")
+	}
+
+	# Set up the krb5.conf variable.
 	if ($krb5_conf == undef)
 	{
 		$krb5_conf_real = $kerberos::params::krb5_conf
@@ -54,6 +61,7 @@ define kerberos::client::appdefault
 		$krb5_conf_real = $krb5_conf
 	}
 
+	# Define the appdefaults section if it isn't already.
 	if (!defined(Class["kerberos::client::appdefaults"]))
 	{
 		class

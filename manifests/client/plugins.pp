@@ -44,6 +44,12 @@ class kerberos::client::plugins
 	$krb5_conf	= $kerberos::params::krb5_conf
 ) inherits kerberos::params
 {
+	# Fail if kerberos::client is not defined.
+	if (!defined(Class["kerberos::client"]))
+	{
+		fail("kerberos::client is not defined")
+	}
+
 	concat::fragment
 	{ "$krb5_conf.plugins":
 		target	=> $krb5_conf,

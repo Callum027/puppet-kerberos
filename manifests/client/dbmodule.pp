@@ -55,6 +55,12 @@ define kerberos::client::dbmodule
 {
 	require kerberos::params
 
+	# Fail if kerberos::client is not defined.
+	if (!defined(Class["kerberos::client"]))
+	{
+		fail("kerberos::client is not defined")
+	}
+
 	if ($krb5_conf == undef)
 	{
 		$krb5_conf_real = $kerberos::params::krb5_conf
