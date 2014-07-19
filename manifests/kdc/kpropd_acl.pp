@@ -35,7 +35,7 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::kprod_acl_host
+define kerberos::kdc::kpropd_acl::host
 (
 	$realm,
 	$hostname = $title,
@@ -67,7 +67,7 @@ class kerberos::kdc::kpropd_acl
 
 	# Export this KDC's hostname. It will be used to build
 	# kpropd.acl, which is the Kerberos cluster's access control list.
-	@@kerberos::kdc::kpropd_acl_host
+	@@kerberos::kdc::kpropd_acl::host
 	{ $fqdn:
 		realm			=> $realm,
 		kpropd_acl		=> $kpropd_acl,
@@ -75,7 +75,7 @@ class kerberos::kdc::kpropd_acl
 	}
 
 	# Collect all of the slave KDCs, and save a kpropd access control list.
-	Kerberos::Kdc::Kpropd_acl_host <<| kpropd_acl == $kpropd_acl |>>
+	Kerberos::Kdc::Kpropd_acl::Host <<| kpropd_acl == $kpropd_acl |>>
 
 	# Set up the concat resource for kpropd.acl.
 	concat
