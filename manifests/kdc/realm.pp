@@ -76,6 +76,11 @@ define kerberos::kdc::realm
 {
 	require kerberos::params
 
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
+
 	if ($kdc_conf == undef)
 	{
 		$kdc_conf_real = $kerberos::params::kdc_conf

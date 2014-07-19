@@ -44,6 +44,11 @@ class kerberos::kdc::logging
 	$kdc_conf	= $kerberos::params::kdc_conf
 ) inherits kerberos::params
 {
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
+
 	concat::fragment
 	{ "$kdc_conf.logging":
 		target	=> $kdc_conf,

@@ -37,6 +37,11 @@
 #
 class kerberos::kdc::otp($kdc_conf = $kerberos::params::kdc_conf) inherits kerberos::params
 {
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
+
 	concat::fragment
 	{ "$kerberos::params::kdc_conf.otp":
 		target	=> $kdc_conf,

@@ -49,7 +49,12 @@ define kerberos::kdc::otp_token
 )
 {
 	require kerberos::params
-	require kerberos::client::otp
+	require kerberos::kdc::otp
+
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
 
 	if ($kdc_conf == undef)
 	{

@@ -35,7 +35,7 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-define kerberos::kdc::acl
+define kerberos::kadmin_server::acl
 (
 	$file			= $title,
 	$owner			= undef,
@@ -56,8 +56,11 @@ define kerberos::kdc::acl
 )
 {
 	require kerberos::params
-	require kerberos::kdc
-	require kerberos::kdc::kadmin_server
+
+	if (!defined(Class["kerberos::kadmin"]))
+	{
+		fail("kerberos::kadmin is not defined")
+	}
 
 	if ($owner == undef)
 	{

@@ -63,7 +63,10 @@ class kerberos::kdc::kpropd_acl
 	$kpropd_acl_host_prefix	= $kerberos::params::kpropd_acl_host_prefix
 ) inherits kerberos::params
 {
-	require kerberos::kdc
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
 
 	# Export this KDC's hostname. It will be used to build
 	# kpropd.acl, which is the Kerberos cluster's access control list.

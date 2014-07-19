@@ -35,13 +35,16 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::kdc::kadmin_server
+class kerberos::kadmin_server
 (
 	$kadmin_server_service	= $kerberos::params::kadmin_server_service,
 	$kadmin_server_packages	= $kerberos::params::kadmin_server_packages
 ) inherits kerberos::params
 {
-	require kerberos::kdc
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc needs to be defined for kerberos::kadmin_server to work")
+	}
 
 	# Install the kadmin server.
 	package

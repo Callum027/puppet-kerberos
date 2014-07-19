@@ -37,6 +37,11 @@
 #
 class kerberos::kdc::dbmodules($kdc_conf = $kerberos::params::kdc_conf) inherits kerberos::params
 {
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
+
 	concat::fragment
 	{ "$kdc_conf.dbmodules":
 		target	=> $kdc_conf,

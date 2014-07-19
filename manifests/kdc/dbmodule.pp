@@ -57,6 +57,11 @@ define kerberos::kdc::dbmodule
 	require kerberos::params
 	require kerberos::kdc::dbmodules
 
+	if (!defined(Class["kerberos::kdc"]))
+	{
+		fail("kerberos::kdc is not defined")
+	}
+
 	if ($kdc_conf == undef)
 	{
 		$kdc_conf_real = $kerberos::params::kdc_conf
