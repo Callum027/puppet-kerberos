@@ -53,6 +53,6 @@ class kerberos::kdc::kadmin_server
 	service
 	{ $kadmin_server_service:
 		ensure	=> running,
-		enabled	=> true,
+		enable	=> true,
 	}
 }

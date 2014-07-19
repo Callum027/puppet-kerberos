@@ -57,7 +57,7 @@ define kerberos::kdc::acl
 {
 	require kerberos::params
 	require kerberos::kdc
-	require kerberos::kadmin_server
+	require kerberos::kdc::kadmin_server
 
 	if ($owner == undef)
 	{

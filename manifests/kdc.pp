@@ -64,7 +64,7 @@ class kerberos::kdc
 	service
 	{ $kdc_service:
 		ensure	=> running,
-		enabled	=> true,
+		enable	=> true,
 		require	=> File[$kdc_conf],
 	}
 }
