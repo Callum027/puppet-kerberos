@@ -47,6 +47,7 @@ define kerberos::kdc::kpropd_acl::host
 	concat::fragment
 	{ "$kpropd_acl.$hostname":
 		target	=> $kpropd_acl,
+		order	=> 01,
 		content	=> "$kpropd_acl_host_prefix/$hostname@$realm\n",
 	}
 }
