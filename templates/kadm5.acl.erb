@@ -2,5 +2,5 @@
 # Any local changes will be overwritten.
 
 <% @acl.each do |hash| -%>
-<%= hash.principal %> <%= hash.permissions %><% if hash.target_principal then %> <%= hash.target_principal %><% end %><% if hash.restrictions then %> <%= hash.restrictions %><% end %>
+<%= hash[:principal] %> <%= hash[:permissions] %><% if hash[:target_principal] then %> <%= hash[:targer_principal] %><% end %><% if hash[:restrictions] then %> <%= hash[:restrictions] %><% end %>
 <% end -%>
