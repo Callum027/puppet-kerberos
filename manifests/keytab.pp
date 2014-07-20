@@ -239,6 +239,8 @@ define kerberos::keytab
 	}
 
 	# Add the given principals to the Kerberos realm.
+	notify { "require_packages = $require_packages": }
+	notify { "require_services = $require_services": }
 	exec
 	{ "kerberos::keytab::kadmin_addprinc::${principals}":
 		command	=> "$kadmin_command -r $realm_real -q \"addprinc -randkey ${principals}\"",
