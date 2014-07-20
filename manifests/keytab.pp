@@ -267,16 +267,16 @@ define kerberos::keytab
 		command		=> "$kadmin_command -r $realm_real -q \"ktadd -k $keytab ${principals}\"",
 		unless		=> "$klist_real -k $keytab | $grep_real \"${principals}\"",
 		require		=> Exec["kerberos::keytab::kadmin_addprinc::${principals}"],
-		subscribe	=> File[$keytab],
+		#subscribe	=> File[$keytab],
 	}
 
 	# Make sure that the keytab is there, set the permissions on it,
 	# and provide a resource hook for Puppet.
-	file
-	{ $keytab:
-		ensure	=> file,
-		owner	=> $owner_real,
-		group	=> $group_real,
-		mode	=> $mode_real,
-	}
+	#file
+	#{ $keytab:
+	#	ensure	=> file,
+	#	owner	=> $owner_real,
+	#	group	=> $group_real,
+	#	mode	=> $mode_real,
+	#}
 }
