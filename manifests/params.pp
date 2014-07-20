@@ -72,10 +72,10 @@ class kerberos::params
 			$kadmin_server_service			= "krb5-admin-server"
 
 			# Default keytab location, permissions.
-			$keytab					= "$prefix/krb5.keytab"
-			$keytab_owner				= "root"
-			$keytab_group				= "root"
-			$keytab_mode				= "400"
+			$krb5_keytab				= "$prefix/krb5.keytab"
+			$krb5_keytab_owner			= "root"
+			$krb5_keytab_group			= "root"
+			$krb5_keytab_mode			= "400"
 
 			# krb5.conf location, permissions.
 			$krb5_conf				= "$prefix/krb5.conf"
@@ -89,11 +89,11 @@ class kerberos::params
 			$kdc_conf_group				= "root"
 			$kdc_conf_mode				= "444"
 
-			# kadmin.keytab location, permissions.
-			$kadmin_keytab				= "$kdc_prefix/kadmin.keytab"
-			$kadmin_keytab_owner			= "root"
-			$kadmin_keytab_group			= "root"
-			$kadmin_keytab_mode			= "400"
+			# kadm5.keytab location, permissions.
+			$kadm5_keytab				= "$kdc_prefix/kadm5.keytab"
+			$kadm5_keytab_owner			= "root"
+			$kadm5_keytab_group			= "root"
+			$kadm5_keytab_mode			= "400"
 
 			# kadm5.acl location, permissions.
 			$kadm5_acl				= "$kdc_prefix/kadm5.acl"

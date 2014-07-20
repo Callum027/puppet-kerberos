@@ -37,15 +37,21 @@
 #
 class kerberos::configs::kdc_master
 (
-	$password	= undef,
+	$password		= undef,
+	$realm			= $kerberos::params::realm,
 
-	$realm		= $kerberos::params::realm,
-	$kadm5_acl	= $kerberos::params::kadm5_acl,
-	$keytab 	= $kerberos::params::keytab,
-	$kprop_dump	= $kerberos::params::kprop_dump,
+	$krb5_keytab 		= $kerberos::params::krb5_keytab,
 
-	$kdb5_util	= $kerberos::params::kdb5_util,
-	$kprop		= $kerberos::params::kprop
+	$kdc_database_dir	= $kerberos::params::kdc_database_dir
+	$kdc_database_name	= "$kdc_database_dir/principal"
+
+	$kadm5_keytab		= $kerberos::params::kadm5_keytab,
+	$kadm5_acl		= $kerberos::params::kadm5_acl,
+
+	$kprop_dump		= $kerberos::params::kprop_dump,
+
+	$kdb5_util		= $kerberos::params::kdb5_util,
+	$kprop			= $kerberos::params::kprop
 ) inherits kerberos::params
 {
 	include kerberos::client
@@ -56,6 +62,10 @@ class kerberos::configs::kdc_master
 	class
 	{ 'kerberos::client::libdefaults':
 		default_realm	=> $realm,
+		kdc_timesync	=> 1,
+		ccache_type	=> 4,
+		forwardable	=> true,
+		proxiable	=> true,
 	}
 
 	kerberos::client::realm
@@ -84,8 +94,16 @@ class kerberos::configs::kdc_master
 
 	kerberos::kdc::realm
 	{ $realm:
-		kdc_ports	=> [ 750, 88 ],
-		password	=> $password,
+		password		=> $password,
+
+		database_name		=> $kdc_database_name,
+		admin_keytab		=> "FILE:$kadm5_keytab",
+		acl_file		=> $kadm5_acl,
+		kdc_ports		=> [ 750, 88 ],
+		max_life		=> "10h 0m 0s",
+		max_renewable_life	=> "7d 0h 0m 0s",
+		master_key_type		=> "des3-hmac-sha1",
+		default_principal_flags	=> "+preauth",
 	}
 
 	# Set up kadm5.acl, which stores the access control list
@@ -97,7 +115,7 @@ class kerberos::configs::kdc_master
 
 	# Install a host keytab for this machine. Needed for host authentication.
 	kerberos::keytab
-	{ $keytab:
+	{ $krb5_keytab:
 		use_kadmin_local	=> true,
 		principals		=> "host/$fqdn",
 	}

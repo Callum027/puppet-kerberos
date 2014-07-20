@@ -37,6 +37,8 @@
 #
 class kerberos::client::login
 (
+	$krb4_convert		= undef,
+	$krb4_get_tickets	= undef,
 	$krb5_get_tickets	= undef,
 	$krb_run_aklog		= undef,
 	$aklog_path		= undef,

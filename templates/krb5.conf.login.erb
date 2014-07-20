@@ -1,5 +1,11 @@
 
 [login]
+<% if @krb4_convert -%>
+krb4_convert = <%= @krb4_convert %>
+<% end -%>
+<% if @krb4_get_tickets -%>
+krb4_get_tickets = <%= @krb4_get_tickets %>
+<% end -%>
 <% if @krb5_get_tickets -%>
 krb5_get_tickets = <%= @krb5_get_tickets %>
 <% end -%>

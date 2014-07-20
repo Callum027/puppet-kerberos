@@ -78,7 +78,7 @@ define kerberos::keytab
 
 	if ($owner == undef)
 	{
-		$owner_real = $kerberos::params::keytab_owner
+		$owner_real = $kerberos::params::krb5_keytab_owner
 	}
 	else
 	{
@@ -87,7 +87,7 @@ define kerberos::keytab
 
 	if ($group == undef)
 	{
-		$group_real = $kerberos::params::keytab_group
+		$group_real = $kerberos::params::krb5_keytab_group
 	}
 	else
 	{
@@ -96,7 +96,7 @@ define kerberos::keytab
 
 	if ($mode == undef)
 	{
-		$mode_real = $kerberos::params::keytab_mode
+		$mode_real = $kerberos::params::krb5_keytab_mode
 	}
 	else
 	{
@@ -230,15 +230,15 @@ define kerberos::keytab
 	# Add the given principals to the Kerberos realm.
 	exec
 	{ "kerberos::keytab::kadmin_addprinc::${principals}":
-		command	=> "$kadmin_command -r $realm -q \"addprinc -randkey ${principals}\"",
-		unless	=> "$kadmin_command -r $realm -q \"listprincs ${principals}\" | $grep_real \"${principals}\"",
+		command	=> "$kadmin_command -r $realm_real -q \"addprinc -randkey ${principals}\"",
+		unless	=> "$kadmin_command -r $realm_real -q \"listprincs ${principals}\" | $grep_real \"${principals}\"",
 		require => [ Service[$kdc_service_real] , Service[$kadmin_server_service_real] ],
 	}
 
 	# Save the given principals to the keytab file.
 	exec
 	{ "kerberos::keytab::kadmin_ktadd::${principals}":
-		command		=> "$kadmin_command -r $realm -q \"ktadd -k $keytab ${principals}\"",
+		command		=> "$kadmin_command -r $realm_real -q \"ktadd -k $keytab ${principals}\"",
 		unless		=> "$klist_real -k $keytab | $grep_real \"${principals}\"",
 		require		=> Exec["kerberos::keytab::kadmin_addprinc::${principals}"],
 		subscribe	=> File[$keytab],
