@@ -54,6 +54,9 @@ define kerberos::keytab
 	$kdc_prefix		= undef,
 	$tmpfile		= undef,
 
+	$kdc_packages		= undef,
+	$kadmin_server_packages	= undef,
+
 	$kdc_service		= undef,
 	$kadmin_server_service	= undef,
 
@@ -203,6 +206,10 @@ define kerberos::keytab
 		true:
 		{
 			$kadmin_command = $kadmin_local_real
+
+			# Running kadmin.local commands requires these packages.
+			$require_packages = [ $kdc_packages_real, $kadmin_server_packages_real ]
+			$require_services = [ $kdc_service_real, $kadmin_server_service_real ]
 		}
 		false:
 		{
@@ -224,6 +231,10 @@ define kerberos::keytab
 
 			# Set the kadmin command to pass the password to kadmin via stdin.
 			$kadmin_command = "$cat_real \"$tmpfile_real\" | $kadmin_real"
+
+			# Running kadmin commands requires these packages.
+			$require_packages = $kdc_packages_real
+			$require_services = $kdc_service_real
 		}
 	}
 
@@ -232,7 +243,7 @@ define kerberos::keytab
 	{ "kerberos::keytab::kadmin_addprinc::${principals}":
 		command	=> "$kadmin_command -r $realm_real -q \"addprinc -randkey ${principals}\"",
 		unless	=> "$kadmin_command -r $realm_real -q \"listprincs ${principals}\" | $grep_real \"${principals}\"",
-		require => [ Service[$kdc_service_real] , Service[$kadmin_server_service_real] ],
+		require => [ Package[$require_packages], Service[$require_services] ],
 	}
 
 	# Save the given principals to the keytab file.
