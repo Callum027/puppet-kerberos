@@ -35,8 +35,12 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::configs::kdc_master
+class kerberos::configs::kdc_slave
 (
+	$master_kdc,
+	$admin_server		= $master_kdc,
+	$kpasswd_server		= $admin_server,
+
 	$password		= undef,
 	$realm			= $kerberos::params::realm,
 
@@ -48,15 +52,12 @@ class kerberos::configs::kdc_master
 	$kadm5_keytab		= $kerberos::params::kadm5_keytab,
 	$kadm5_acl		= $kerberos::params::kadm5_acl,
 
-	$kprop_dump		= $kerberos::params::kprop_dump,
-
-	$kdb5_util		= $kerberos::params::kdb5_util,
-	$kprop			= $kerberos::params::kprop
+	$kpropd			= $kerberos::params::kpropd
 ) inherits kerberos::params
 {
 	include kerberos::client
 	include kerberos::kdc
-	include kerberos::kadmin_server
+	#include kerberos::kadmin_server
 
 	# Configure the Kerberos client, to connect with the local database.
 	class
@@ -71,7 +72,9 @@ class kerberos::configs::kdc_master
 	kerberos::client::realm
 	{ $realm:
 		kdc		=> $fqdn,
-		admin_server	=> $fqdn,
+		master_kdc	=> $master_kdc,
+		admin_server	=> $admin_server,
+		kpasswd_server	=> $kpasswd_server,
 	}
 
 	class
@@ -108,18 +111,17 @@ class kerberos::configs::kdc_master
 
 	# Set up kadm5.acl, which stores the access control list
 	# for the kadmin daemon.
-	kerberos::kadmin_server::acl
-	{ $kadm5_acl:
-		realm	=> $realm,
-	}
+	#kerberos::kadmin_server::acl
+	#{ $kadm5_acl:
+	#	realm	=> $realm,
+	#}
 
 	# Install a host keytab for this machine. Needed for host authentication.
 	kerberos::keytab
 	{ $krb5_keytab:
-		use_kadmin_local	=> true,
 		principals		=> "host/$fqdn",
 	}
 
-	# Set up this KDC as a master KDC, replicating against the slaves.
-	include kerberos::kdc::kprop_master
+	# Set up this KDC as a slave KDC.
+	include kerberos::kdc::kprop_slave
 }
