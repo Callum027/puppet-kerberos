@@ -44,6 +44,7 @@ define kerberos::kdc::kpropd_acl::host
 	$kpropd_acl_host_prefix
 )
 {
+	notify { "defined kerberos::kdc::kpropd_acl::host for $kpropd_acl_host_prefix/$hostname@$realm": }
 	concat::fragment
 	{ "$kpropd_acl.$realm.$hostname":
 		target	=> $kpropd_acl,
