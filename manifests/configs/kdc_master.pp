@@ -42,8 +42,8 @@ class kerberos::configs::kdc_master
 
 	$krb5_keytab 		= $kerberos::params::krb5_keytab,
 
-	$kdc_database_dir	= $kerberos::params::kdc_database_dir
-	$kdc_database_name	= "$kdc_database_dir/principal"
+	$kdc_database_dir	= $kerberos::params::kdc_database_dir,
+	$kdc_database_name	= "$kdc_database_dir/principal",
 
 	$kadm5_keytab		= $kerberos::params::kadm5_keytab,
 	$kadm5_acl		= $kerberos::params::kadm5_acl,
