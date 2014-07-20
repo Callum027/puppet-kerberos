@@ -73,7 +73,7 @@ define kerberos::client::capath
 	concat::fragment
 	{ "$krb5_conf_real.capaths.$tag":
 		target	=> $krb5_conf_real,
-		order	=> 07,
+		order	=> "07-$tag",
 		content	=> template("kerberos/krb5.conf.capath.erb"),
 	}
 }

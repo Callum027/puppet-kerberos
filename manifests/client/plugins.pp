@@ -53,7 +53,7 @@ class kerberos::client::plugins
 	concat::fragment
 	{ "$krb5_conf.plugins":
 		target	=> $krb5_conf,
-		order	=> 11,
-		content	=> template("kerberos/krb5.conf.plugins.erb"),
+		order	=> "11",
+		content	=> "\n[plugins]\n",
 	}
 }

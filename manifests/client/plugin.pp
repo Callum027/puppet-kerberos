@@ -73,7 +73,7 @@ define kerberos::client::plugin
 	concat::fragment
 	{ "$krb5_conf_real.plugins.$tag":
 		target	=> $krb5_conf_real,
-		order	=> 12,
+		order	=> "12-$tag",
 		content	=> template("kerberos/krb5.conf.plugin.erb"),
 	}
 }

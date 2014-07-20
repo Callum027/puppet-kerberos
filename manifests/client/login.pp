@@ -54,7 +54,7 @@ class kerberos::client::login
 	concat::fragment
 	{ "$krb5_conf.login":
 		target	=> $krb5_conf,
-		order	=> 10,
+		order	=> "10",
 		content	=> template("kerberos/krb5.conf.login.erb"),
 	}
 }

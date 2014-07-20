@@ -21,7 +21,7 @@
 	dict_file = <%= @dict_file %>
 <% end -%>
 <% if @host_based_services -%>
-	host_based_services = <%= @host_based_services %>
+	host_based_services = <%= Array(@host_based_services).join(",") %>
 <% end -%>
 <% if @iprop_enable -%>
 	iprop_enable = <%= @iprop_enable %>
@@ -32,6 +32,9 @@
 <% if @iprop_slave_poll -%>
 	iprop_slave_poll = <%= @iprop_slave_poll %>
 <% end -%>
+<% if @iprop_port -%>
+	iprop_port = <%= @iprop_port %>
+<% end -%>
 <% if @iprop_resync_timeout -%>
 	iprop_resync_timeout = <%= @iprop_resync_timeout %>
 <% end -%>
@@ -41,17 +44,14 @@
 <% if @kadmind_port -%>
 	kadmind_port = <%= @kadmind_port %>
 <% end -%>
-<% if @kdc_ports -%>
-	kdc_ports = <%= Array(@kdc_ports).join(",") %>
-<% end -%>
 <% if @key_stash_file -%>
 	key_stash_file = <%= @key_stash_file %>
 <% end -%>
-<% if @default_principal_flags_ports -%>
-	default_principal_flags_ports = <%= Array(@default_principal_flags_ports).join(",") %>
+<% if @kdc_ports -%>
+	kdc_ports = <%= Array(@kdc_ports).join(",") %>
 <% end -%>
-<% if @default_principal_flags_tcp_ports -%>
-	default_principal_flags_tcp_ports = <%= Array(@default_principal_flags_tcp_ports).join(",") %>
+<% if @kdc_tcp_ports -%>
+	kdc_tcp_ports = <%= Array(@kdc_tcp_ports).join(",") %>
 <% end -%>
 <% if @master_key_name -%>
 	master_key_name = <%= @master_key_name %>
@@ -66,7 +66,7 @@
 	max_renewable_life = <%= @max_renewable_life %>
 <% end -%>
 <% if @no_host_referral -%>
-	no_host_referral = <%= @no_host_referral %>
+	no_host_referral = <%= Array(@no_host_referral).join(",") %>
 <% end -%>
 <% if @des_crc_session_supported -%>
 	des_crc_session_supported = <%= @des_crc_session_supported %>
@@ -74,8 +74,8 @@
 <% if @reject_bad_transit -%>
 	reject_bad_transit = <%= @reject_bad_transit %>
 <% end -%>
-<% if @restrict_anonymous_to_tft -%>
-	restrict_anonymous_to_tft = <%= @restrict_anonymous_to_tft %>
+<% if @restrict_anonymous_to_tgt -%>
+	restrict_anonymous_to_tgt = <%= @restrict_anonymous_to_tgt %>
 <% end -%>
 <% if @supported_enctypes -%>
 	supported_enctypes = <%= Array(@supported_enctypes).join(",") %>

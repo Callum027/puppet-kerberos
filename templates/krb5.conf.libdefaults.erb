@@ -22,10 +22,10 @@ default_client_keytab_name = <%= @default_client_keytab_name %>
 <% end -%>
 default_realm = <%= @default_realm %>
 <% if @default_tgs_enctypes -%>
-default_tgs_enctypes = <%= @default_tgs_enctypes %>
+default_tgs_enctypes = <%= Array(@default_tgs_enctypes).join(",") %>
 <% end -%>
 <% if @default_tkt_enctypes -%>
-default_tkt_enctypes = <%= @default_tkt_enctypes %>
+default_tkt_enctypes = <%= Array(@default_tkt_enctypes).join(",") %>
 <% end -%>
 <% if @dns_canonicalize_hostname -%>
 dns_canonicalize_hostname = <%= @dns_canonicalize_hostname %>
@@ -34,7 +34,7 @@ dns_canonicalize_hostname = <%= @dns_canonicalize_hostname %>
 dns_lookup_dc = <%= @dns_lookup_dc %>
 <% end -%>
 <% if @extra_addresses -%>
-extra_addresses = <%= @extra_addresses %>
+extra_addresses = <%= Array(@extra_addresses).join(",") %>
 <% end -%>
 <% if @forwardable -%>
 forwardable = <%= @forwardable %>
@@ -61,13 +61,13 @@ kdc_req_checksum_type = <%= @kdc_req_checksum_type %>
 noaddresses = <%= @noaddresses %>
 <% end -%>
 <% if @permitted_enctypes -%>
-permitted_enctypes = <%= @permitted_enctypes %>
+permitted_enctypes = <%= Array(@permitted_enctypes).join(",") %>
 <% end -%>
 <% if @plugin_base_dir -%>
 plugin_base_dir = <%= @plugin_base_dir %>
 <% end -%>
-<% if @preferred_preauth_type -%>
-preferred_preauth_type = <%= @preferred_preauth_type %>
+<% if @preferred_preauth_types -%>
+preferred_preauth_types = <%= Array(@preferred_preauth_types).join(",") %>
 <% end -%>
 <% if @proxiable -%>
 proxiable = <%= @proxiable %>

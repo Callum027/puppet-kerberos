@@ -85,7 +85,7 @@ define kerberos::client::realm
 	concat::fragment
 	{ "$krb5_conf_real.realms.$tag":
 		target	=> $krb5_conf_real,
-		order	=> 03,
+		order	=> "03-$tag",
 		content	=> template("kerberos/krb5.conf.realm.erb"),
 	}
 } 

@@ -46,7 +46,7 @@ class kerberos::client::appdefaults($krb5_conf = $kerberos::params::krb5_conf) i
 	concat::fragment
 	{ "$krb5_conf.appdefaults":
 		target	=> $krb5_conf,
-		order	=> 08,
+		order	=> "08",
 		content	=> "\n[appdefaults]\n",
 	}
 }

@@ -60,7 +60,7 @@ class kerberos::client::libdefaults
 	$noaddresses			= undef,
 	$permitted_enctypes		= undef,
 	$plugin_base_dir		= undef,
-	$preferred_preauth_type		= undef,
+	$preferred_preauth_types	= undef,
 	$proxiable			= undef,
 	$rdns				= undef,
 	$realm_try_domains		= undef,
@@ -82,7 +82,7 @@ class kerberos::client::libdefaults
 	concat::fragment
 	{ "$krb5_conf.libdefaults":
 		target	=> $krb5_conf,
-		order	=> 01,
+		order	=> "01",
 		content	=> template("kerberos/krb5.conf.libdefaults.erb"),
 	}
 }

@@ -3,7 +3,9 @@
 <% if value.is_a?(Hash) -%>
 	<%= key %> = {
 <% value.each_pair do |k, v| -%>
-		<%= k %> = <%= v %>
+<% Array(v).each do |av| %>
+		<%= k %> = <%= av %>
+<% end -%>
 <% end -%>
 	}
 <% else -%>

@@ -57,7 +57,7 @@ class kerberos::client::dbdefaults
 	concat::fragment
 	{ "$krb5_conf.dbdefaults":
 		target	=> $krb5_conf,
-		order	=> 13,
+		order	=> "13",
 		content	=> template("kerberos/krb5.conf.dbdefaults.erb"),
 	}
 }

@@ -75,7 +75,7 @@ define kerberos::client::appdefault
 	concat::fragment
 	{ "$krb5_conf_real.appdefaults.$tag":
 		target	=> $krb5_conf_real,
-		order	=> 09,
+		order	=> "09-$tag",
 		content	=> template("kerberos/krb5.conf.appdefault.erb"),
 	}
 }

@@ -46,7 +46,7 @@ class kerberos::client::dbmodules($krb5_conf = $kerberos::params::krb5_conf) inh
 	concat::fragment
 	{ "$krb5_conf.dbmodules":
 		target	=> $krb5_conf,
-		order	=> 14,
+		order	=> "14",
 		content	=> "\n[dbmodules]\n",
 	}
 }

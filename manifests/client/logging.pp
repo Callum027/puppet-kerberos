@@ -53,7 +53,7 @@ class kerberos::client::logging
 	concat::fragment
 	{ "$krb5_conf.logging":
 		target	=> $krb5_conf,
-		order	=> 05,
+		order	=> "05",
 		content	=> template("kerberos/krb5.conf.logging.erb"),
 	}
 }

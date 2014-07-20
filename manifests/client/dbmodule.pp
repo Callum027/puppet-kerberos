@@ -81,7 +81,7 @@ define kerberos::client::dbmodule
 	concat::fragment
 	{ "$krb5_conf_real.dbmodules.$tag":
 		target	=> $krb5_conf_real,
-		order	=> 15,
+		order	=> "15-$tag",
 		content	=> template("kerberos/krb5.conf.dbmodule.erb"),
 	}
 }

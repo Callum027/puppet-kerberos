@@ -76,7 +76,7 @@ class kerberos::client::domain_realm
 	concat::fragment
 	{ "$krb5_conf.domain_realm":
 		target	=> $krb5_conf,
-		order	=> 04,
+		order	=> "04",
 		content	=> template("kerberos/krb5.conf.domain_realm.erb"),
 	}
 }

@@ -46,7 +46,7 @@ class kerberos::client::realms($krb5_conf = $kerberos::params::krb5_conf) inheri
 	concat::fragment
 	{ "$krb5_conf.realms":
 		target	=> $krb5_conf,
-		order	=> 02,
+		order	=> "02",
 		content	=> "\n[realms]\n",
 	}
 }

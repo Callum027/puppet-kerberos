@@ -46,7 +46,7 @@ class kerberos::client::capaths($krb5_conf = $kerberos::params::krb5_conf) inher
 	concat::fragment
 	{ "$krb5_conf.capaths":
 		target	=> $krb5_conf,
-		order	=> 06,
+		order	=> "06",
 		content	=> "\n[capaths]\n",
 	}
 }
