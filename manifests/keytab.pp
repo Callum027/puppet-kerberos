@@ -205,14 +205,18 @@ define kerberos::keytab
 	{
 		true:
 		{
-			$kadmin_command = $kadmin_local_real
-
 			# Running kadmin.local commands requires these packages.
 			$require_packages = [ $kdc_packages_real, $kadmin_server_packages_real ]
 			$require_services = [ $kdc_service_real, $kadmin_server_service_real ]
+
+			$kadmin_command = $kadmin_local_real
 		}
 		false:
 		{
+			# Running kadmin commands requires these packages.
+			$require_packages = $kdc_packages_real
+			$require_services = $kdc_service_real
+
 			# Add the temporary file to disk.
 			file
 			{ $tmpfile_real:
@@ -231,10 +235,6 @@ define kerberos::keytab
 
 			# Set the kadmin command to pass the password to kadmin via stdin.
 			$kadmin_command = "$cat_real \"$tmpfile_real\" | $kadmin_real"
-
-			# Running kadmin commands requires these packages.
-			$require_packages = $kdc_packages_real
-			$require_services = $kdc_service_real
 		}
 	}
 
