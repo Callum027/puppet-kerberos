@@ -274,8 +274,6 @@ define kerberos::keytab
 	# and provide a resource hook for Puppet.
 	file
 	{ $keytab:
-		ensure	=> file,
-		replace	=> false,
 		owner	=> $owner_real,
 		group	=> $group_real,
 		mode	=> $mode_real,
