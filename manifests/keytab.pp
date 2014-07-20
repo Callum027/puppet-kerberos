@@ -274,9 +274,10 @@ define kerberos::keytab
 	# and provide a resource hook for Puppet.
 	file
 	{ $keytab:
-		ensure	=> present,
+		ensure	=> file,
 		owner	=> $owner_real,
 		group	=> $group_real,
 		mode	=> $mode_real,
+		require	=> Exec["kerberos::keytab::kadmin_ktadd::${principals}"],
 	}
 }
