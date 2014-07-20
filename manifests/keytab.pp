@@ -124,6 +124,24 @@ define kerberos::keytab
 		$tmpfile_real = $tmpfile
 	}
 
+	if ($kdc_packages == undef)
+	{
+		$kdc_packages_real = $kerberos::params::kdc_packages
+	}
+	else
+	{
+		$kdc_packages_real = $kdc_packages
+	}
+
+	if ($kadmin_server_packages == undef)
+	{
+		$kadmin_server_packages_real = $kerberos::params::kadmin_server_packages
+	}
+	else
+	{
+		$kadmin_server_packages_real = $kadmin_server_packages
+	}
+
 	if ($kdc_service == undef)
 	{
 		$kdc_service_real = $kerberos::params::kdc_service
