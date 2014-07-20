@@ -201,46 +201,41 @@ define kerberos::keytab
 	# temporary file, in (hopefully) a locked down folder. This is then passed
 	# to kadmin via standard input, in the hopes that no unprivileged users will
 	# be able to find out the password.
-	case ($use_kadmin_local)
+	if ($use_kadmin_local == true)
 	{
-		true:
-		{
-			# Running kadmin.local commands requires these packages.
-			$require_packages = [ $kdc_packages_real, $kadmin_server_packages_real ]
-			$require_services = [ $kdc_service_real, $kadmin_server_service_real ]
+		# Running kadmin.local commands requires these packages.
+		$require_packages = [ $kdc_packages_real, $kadmin_server_packages_real ]
+		$require_services = [ $kdc_service_real, $kadmin_server_service_real ]
 
-			$kadmin_command = $kadmin_local_real
+		$kadmin_command = $kadmin_local_real
+	}
+	elsif ($use_kadmin_local == false)
+	{
+		# Running kadmin commands requires these packages.
+		$require_packages = $kdc_packages_real
+		$require_services = $kdc_service_real
+
+		# Add the temporary file to disk.
+		file
+		{ $tmpfile_real:
+			owner		=> "root",
+			group		=> "root",
+			mode		=> 400,
+			content		=> $password,
+			subscribe	=> [ Exec["kerberos::keytab::kadmin_addprinc::${principals}"], Exec["kerberos::keytab::kadmin_ktadd::${principals}"] ],
 		}
-		false:
-		{
-			# Running kadmin commands requires these packages.
-			$require_packages = $kdc_packages_real
-			$require_services = $kdc_service_real
 
-			# Add the temporary file to disk.
-			file
-			{ $tmpfile_real:
-				owner		=> "root",
-				group		=> "root",
-				mode		=> 400,
-				content		=> $password,
-				subscribe	=> [ Exec["kerberos::keytab::kadmin_addprinc::${principals}"], Exec["kerberos::keytab::kadmin_ktadd::${principals}"] ],
-			}
-
-			# Delete the file as soon as we're done with it.
-			exec
-			{ "$rm_real -f \"$tmpfile\"":
-				require	=> [ File[$tmpfile_real], File[$keytab] ]
-			}
-
-			# Set the kadmin command to pass the password to kadmin via stdin.
-			$kadmin_command = "$cat_real \"$tmpfile_real\" | $kadmin_real"
+		# Delete the file as soon as we're done with it.
+		exec
+		{ "$rm_real -f \"$tmpfile\"":
+			require	=> [ File[$tmpfile_real], File[$keytab] ]
 		}
+
+		# Set the kadmin command to pass the password to kadmin via stdin.
+		$kadmin_command = "$cat_real \"$tmpfile_real\" | $kadmin_real"
 	}
 
 	# Add the given principals to the Kerberos realm.
-	notify { "require_packages = $require_packages": }
-	notify { "require_services = $require_services": }
 	exec
 	{ "kerberos::keytab::kadmin_addprinc::${principals}":
 		command	=> "$kadmin_command -r $realm_real -q \"addprinc -randkey ${principals}\"",
