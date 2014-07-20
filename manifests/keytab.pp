@@ -278,6 +278,5 @@ define kerberos::keytab
 		owner	=> $owner_real,
 		group	=> $group_real,
 		mode	=> $mode_real,
-		require	=> Exec["kerberos::keytab::kadmin_ktadd::${principals}"],
 	}
 }
