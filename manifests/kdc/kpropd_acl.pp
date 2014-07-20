@@ -79,7 +79,7 @@ class kerberos::kdc::kpropd_acl
 	}
 
 	# Collect all of the slave KDCs, and save a kpropd access control list.
-	Kerberos::Kdc::Kpropd_acl::Host <<| kpropd_acl == $kpropd_acl |>>
+	Kerberos::Kdc::Kpropd_acl::Host <<| |>>
 
 	# Set up the concat resource for kpropd.acl.
 	concat
