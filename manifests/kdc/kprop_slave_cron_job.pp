@@ -35,26 +35,13 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class kerberos::kdc::kprop_master
-(
-	$hostname	= $fqdn,
-	$realm		= $kerberos::params::realm,
-
-	$kpropd_acl	= $kerberos::params::kpropd_acl,
-	$kprop_dump	= $kerberos::params::kprop_dump,
-
-	$kdb5_util	= $kerberos::params::kdb5_util,
-	$kprop		= $kerberos::params::kprop
-) inherits kerberos::params
+define kerberos::kdc::kprop_slave_cron_job($hostname = $title, $realm, $kdc_service, $kpropd_acl, $kprop_dump, $kdb5_util, $kprop)
 {
-	# Create kpropd.acl.
-	class
-	{ 'kerberos::kdc::kpropd_acl':
-		hostname	=> $hostname,
-		realm		=> $realm,
-		kpropd_acl	=> $kpropd_acl,
+	# Set up cron jobs to update the slave KDCs.
+	cron
+	{ "kerberos::kdc::kprop_slave::kdb5_util_kprop::$hostname":
+		command	=> "$kdb5_util dump $kprop_dump && $kprop -r $realm -f $kprop_dump $hostname",
+		minute	=> "*/5",
+		require	=> [ Service[$kdc_service], File[$kpropd_acl] ],
 	}
-
-	# Collect the KDC slave hosts, and configure their cron jobs.
-	Kerberos::Kdc::Kprop_slave_cron_job <<| kpropd_acl == $kpropd_acl |>>
 }

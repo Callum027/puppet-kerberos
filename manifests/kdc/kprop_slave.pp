@@ -40,6 +40,8 @@ class kerberos::kdc::kprop_slave
 	$hostname	= $fqdn,
 	$realm		= $kerberos::params::realm,
 
+	$kdc_service	= $kerberos::params::kdc_service,
+
 	$kpropd_acl	= $kerberos::params::kpropd_acl,
 	$kprop_dump	= $kerberos::params::kprop_dump,
 
@@ -57,11 +59,14 @@ class kerberos::kdc::kprop_slave
 	}
 
 	# Set up cron jobs to update the slave KDCs.
-	@@cron
-	{ "kerberos::kdc::kprop_slave::kdb5_util::$hostname":
-		command	=> "$kdb5_util dump $kprop_dump && $kprop -r $realm -f $kprop_dump $hostname",
-		minute	=> "*/5",
-		require	=> [ Service[$kdc_service], File[$kpropd_acl] ],
+	@@kerberos::kdc::kprop_slave_cron_job
+	{ $fqdn:
+		realm		=> $realm,
+		kdc_service	=> $kdc_service,
+		kpropd_acl	=> $kpropd_acl,
+		kprop_dump	=> $kprop_dump,
+		kdb5_util	=> $kdb5_util,
+		kprop		=> $kprop,
 	}
 
 	# Set up the cron job to start kpropd on reboot.
