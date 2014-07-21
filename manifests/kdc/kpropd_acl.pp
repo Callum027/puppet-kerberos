@@ -54,6 +54,7 @@ define kerberos::kdc::kpropd_acl::host
 
 class kerberos::kdc::kpropd_acl
 (
+	$hostname		= $fqdn,
 	$realm			= $kerberos::params::realm,
 
 	$kdc_packages		= $kerberos::params::kdc_packages,
@@ -72,7 +73,7 @@ class kerberos::kdc::kpropd_acl
 	# Export this KDC's hostname. It will be used to build
 	# kpropd.acl, which is the Kerberos cluster's access control list.
 	@@kerberos::kdc::kpropd_acl::host
-	{ $fqdn:
+	{ $hostname:
 		realm			=> $realm,
 		kpropd_acl		=> $kpropd_acl,
 		kpropd_acl_host_prefix	=> $kpropd_acl_host_prefix,
