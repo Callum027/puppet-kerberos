@@ -37,9 +37,9 @@
 #
 class kerberos::configs::kdc_slave
 (
-	$master_kdc,
-	$admin_server		= $master_kdc,
-	$kpasswd_server		= $admin_server,
+	$master_kdc		= undef,
+	$admin_server		= undef,
+	$kpasswd_server		= undef,
 
 	$password		= undef,
 	$realm			= $kerberos::params::realm,
@@ -57,7 +57,6 @@ class kerberos::configs::kdc_slave
 {
 	include kerberos::client
 	include kerberos::kdc
-	#include kerberos::kadmin_server
 
 	# Configure the Kerberos client, to connect with the local database.
 	class

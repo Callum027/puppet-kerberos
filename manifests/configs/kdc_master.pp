@@ -37,7 +37,7 @@
 #
 class kerberos::configs::kdc_master
 (
-	$password		= undef,
+	$password,
 	$realm			= $kerberos::params::realm,
 
 	$krb5_keytab 		= $kerberos::params::krb5_keytab,
@@ -122,4 +122,8 @@ class kerberos::configs::kdc_master
 
 	# Set up this KDC as a master KDC, replicating against the slaves.
 	include kerberos::kdc::kprop_master
+
+	# Export a kerberos::configs::kdc_master_advertise resource, so any KDC slaves using
+	# kerberos::configs::kdc_slave to be configured will automatically find the master KDC.
+	@@kerberos::configs::kdc_master_advertise { $fqdn: }
 }
